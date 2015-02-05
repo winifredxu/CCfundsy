@@ -27,18 +27,12 @@ RSpec.describe Campaign, type: :model do
     end
 
     it "requires title to be unique" do
-      campaign1 = Campaign.create(campaign_attributes( {title: "unique_test"} ))
-      campaign2 = Campaign.new(campaign_attributes( {title: "unique_test"} ))
+      campaign1 = Campaign.create(campaign_attributes( {title: "unique_test", description: "blah1"} ))
+      campaign2 = Campaign.new(campaign_attributes( {title: "unique_test", description: "blah1"} ))
       expect(campaign2).to be_invalid
     end
 
-=begin
-    it "requires description to be unique in SCOPE of title" do
-      campaign3 = Campaign.create(campaign_attributes( {title: "test3", description: "unique_test"} ))
-      campaign4 = Campaign.new(campaign_attributes( {title: "test4", description: "unique_test"} ))
-      expect(campaign4).to be_invalid
-    end
-=end
+
   end
 
 end
