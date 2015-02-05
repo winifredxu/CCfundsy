@@ -30,7 +30,7 @@ module Fundsy
 
     # add this line below for validators to be accessible in rails console.
     config.autoload_paths += 
-        Dir[Rail.root.join("app", "validators", "*").to_s]
+        Dir[Rails.root.join("app", "validators", "*").to_s]
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
