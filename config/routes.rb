@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   # root 'welcome#index'
 
   resources :users, only: [:new, :create]
+  resources :campaigns
+  root "campaigns#index"
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

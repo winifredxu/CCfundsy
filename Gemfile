@@ -38,8 +38,17 @@ group :test do
 
 end
 
+group :development do  #these are required in ~/.irbrc 
+  gem "interactive_editor"
+  gem "awesome_print"
+  gem "hirb"
+  gem "pry-rails"
+end
 
 group :development, :test do
+  gem 'factory_girl_rails'  #this is for generate Rspec testing
+  gem 'faker'     
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 
