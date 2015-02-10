@@ -1,7 +1,8 @@
 class CampaignsController < ApplicationController
-  before_action :find_campaign, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:new]
-  
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :find_campaign, only: [:show]
+  before_action :find_own_campaign, only: [:edit, :update, :destroy]
+
   def new
     @campaign = Campaign.new
 #    render nothing:true
@@ -9,6 +10,8 @@ class CampaignsController < ApplicationController
 
   def create
     @campaign = Campaign.new campaign_params
+    @campaign.user = current_user
+
     if @campaign.save
 #    render nothing:true
       redirect_to campaigns_path(@campaign), notice: "campaign created successfully."
@@ -29,7 +32,8 @@ class CampaignsController < ApplicationController
   end
 
   def edit
-#s    render nothing:true
+
+#    render nothing:true
   end
 
   def update
@@ -50,6 +54,10 @@ class CampaignsController < ApplicationController
 
   private
 
+  def find_own_campaign
+    @campaign = current_user.campaigns.find params[:id]
+    redirect_to root_path unless @campaign
+  end
   def find_campaign
     @campaign = Campaign.find(params[:id])
   end
