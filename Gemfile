@@ -33,6 +33,9 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'capistrano-rails', group: :development
 
 gem "rspec-rails"
+gem "bootstrap-sass"
+gem "simple_form"
+gem "quiet_assets"
 
 group :test do
 

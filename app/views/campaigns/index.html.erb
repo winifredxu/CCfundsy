@@ -1,0 +1,9 @@
+<h1>Listing all Campaigns</h1>
+
+<ul>
+  <% @entire_campaigns.each do |c| %>
+    <div class="well">
+      <%= link_to c.title, campaign_path(c) %>
+    </div>
+  <% end %>
+</ul>
