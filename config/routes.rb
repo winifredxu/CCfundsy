@@ -5,8 +5,14 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 
-  resources :users, only: [:new, :create]
   resources :campaigns
+  resources :users, only: [:new, :create]
+  resources :sessions, only: [:new, :create] do
+    delete :destroy, on: :collection # on collection does not require an ID
+    delete :destory_1, on: :member # on member will require an ID
+    delete :destory_2 # will use a session ID in the route
+  end
+
   root "campaigns#index"
 
 

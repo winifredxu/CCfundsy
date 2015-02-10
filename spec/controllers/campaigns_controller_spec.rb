@@ -7,16 +7,31 @@ RSpec.describe CampaignsController, type: :controller do
 # def let
 #   create(:campaign)
 # end
+  let(:user)    { create(:user) }
 
   describe "#new" do 
-    it "assigns a new user instance variable" do
-      get :new
-      expect(assigns(:campaign)).to be_a_new(Campaign)
+    context "with user logged in" do
+      before { login(user) }
+
+      it "renders the new template" do
+        get :new
+        expect(response).to render_template(:new)
+      end
+      it "assigns a new campaign instance variable" do
+        get :new
+        expect(assigns(:campaign)).to be_a_new(Campaign)
+      end
     end
-      
-    it "renders the new template" do
-      get :new
-      expect(response).to render_template(:new)
+
+    context "with user not logged in" do
+      # do not login the user!
+      it "redirect users to login page" do
+        get :new
+        expect(response).to redirect_to(new_session_path)
+      end
+      it "" do 
+
+      end
     end
   end
 
