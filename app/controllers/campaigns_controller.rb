@@ -14,7 +14,7 @@ class CampaignsController < ApplicationController
 
     if @campaign.save
 #    render nothing:true
-      redirect_to campaigns_path(@campaign), notice: "campaign created successfully."
+      redirect_to campaign_path(@campaign), notice: "campaign created successfully."
     else
       flash[:alert] = "campaign failed to create"
       render :new

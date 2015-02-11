@@ -52,7 +52,7 @@ RSpec.describe CampaignsController, type: :controller do
 
         it "redirect to campaign new page" do
           valid_campaign_request
-          expect(response).to redirect_to(campaigns_path(Campaign.last))
+          expect(response).to redirect_to(campaign_path(Campaign.last))
         end
 
         it "sets flash message" do

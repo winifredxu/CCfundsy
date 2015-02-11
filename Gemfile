@@ -38,7 +38,7 @@ gem "simple_form"
 gem "quiet_assets"
 
 group :test do
-
+  gem "simplecov", require: false  # only load upon usage
 end
 
 group :development do  #these are required in ~/.irbrc 
@@ -49,8 +49,14 @@ group :development do  #these are required in ~/.irbrc
 end
 
 group :development, :test do
+  gem 'capybara' #capybara for integration testing
+  gem 'launchy'   #also for capybara testing 
   gem 'factory_girl_rails'  #this is for generate Rspec testing
-  gem 'faker'     
+  gem 'faker'  
+
+  #gem 'cucumber-rails', :require => false
+  # database_cleaner is not required, but highly recommended
+  #gem 'database_cleaner'   
 
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -60,5 +66,7 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+ 
 end
 
