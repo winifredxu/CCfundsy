@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150210214651) do
+ActiveRecord::Schema.define(version: 20150211233702) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,22 @@ ActiveRecord::Schema.define(version: 20150210214651) do
 
   add_index "campaigns", ["user_id"], name: "index_campaigns_on_user_id", using: :btree
 
+  create_table "categories", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "categorizations", force: :cascade do |t|
+    t.integer  "campaign_id"
+    t.integer  "category_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "categorizations", ["campaign_id"], name: "index_categorizations_on_campaign_id", using: :btree
+  add_index "categorizations", ["category_id"], name: "index_categorizations_on_category_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email"
     t.string   "password_digest"
@@ -38,4 +54,6 @@ ActiveRecord::Schema.define(version: 20150210214651) do
   end
 
   add_foreign_key "campaigns", "users"
+  add_foreign_key "categorizations", "campaigns"
+  add_foreign_key "categorizations", "categories"
 end

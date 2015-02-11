@@ -9,6 +9,7 @@ class UsersController < ApplicationController
     @user = User.new user_params
     if @user.save
 #    render nothing:true    
+      session[:user_id] = @user.id
       redirect_to root_path, notice: "created user account successfully."
     else
       flash[:alert] = "user account not created"

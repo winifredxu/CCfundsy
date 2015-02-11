@@ -37,6 +37,8 @@ gem "bootstrap-sass"
 gem "simple_form"
 gem "quiet_assets"
 
+gem "cancancan"
+
 group :test do
   gem "simplecov", require: false  # only load upon usage
 end

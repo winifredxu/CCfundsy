@@ -1,0 +1,10 @@
+<%= simple_form_for @campaign do |f| %>
+  <%= f.input :title %>
+  <%= f.input :description %>
+  <%= f.input :goal %>
+  <%= f.input :due_date, as: :date %>
+
+  <%= f.association :categories, as: :check_boxes %>
+
+  <%= f.submit "Submit Campaign" %>
+<% end %>
