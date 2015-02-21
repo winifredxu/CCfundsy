@@ -1,13 +1,88 @@
-<h1><%= @campaign.title %></h1>
-<p><%= @campaign.description %></p>
-<p>Categories: <%= @campaign.categories.map(&:name).join(", ") %></p>
-<p>Created by: <%= @campaign.user_full_name %></p>
-<p>Created on: <%= formatted_date(@campaign.created_at) %></p>
+<%# cache [current_user, @campaign] do %>
+<%# cache @campaign do %>
 
-<% if can? :edit, @campaign %>
-    <% link_to "Edit", edit_campaign_path(@campaign), class: "btn btn-info" %>
-<% end %>
+<div class="row">
+  <div class="col-sm-9 col-md-9">
+    Title: <h1><%= @campaign.title %></h1>
+    <p>Description: <%= @campaign.description %></p>
+    <p>Address: <em><%= @campaign.address %></em></p>
+    <p>Status: <strong><%= @campaign.aasm_state.capitalize %></strong></p>
+    <p>Categories: <%= @campaign.categories.map(&:name).join(", ") %></p>
+    <p>Created by: <%= @campaign.user.full_name %></p>
+    <p>Created on: <%= formatted_date(@campaign.created_at) %></p>
 
-<% if can? :destroy, @campaign %>
-    <% link_to "Delete", @campaign, class: "btn btn-danger", method: :delete, remote: false %>
-<% end %>
+<!-- FSM state transitions logic -->
+    <% if can? :edit, @campaign %>
+        <%= link_to "Edit", edit_campaign_path(@campaign), class: "btn btn-info" %>
+    <% end %>
+
+    <% if can? :destroy, @campaign %>
+        <%= link_to "Delete", @campaign, class: "btn btn-danger", method: :delete, remote: false %>
+    <% end %>
+
+    <% if @campaign.draft? && (can? :publish, @campaign) %>
+      <%= link_to "Publish", campaign_publishings_path(@campaign), class: "btn btn-primary", method: :post, data: {confirm: "Are you sure to publish?"} %>
+    <% end %>
+
+  <!-- comments for polymorphic association demonstration --> 
+    <%#= form_for [@compaign, (@comment || Comment.new)] do |f| %>
+    <%= simple_form_for [@campaign, (@comment || Comment.new)] do |f| %>
+      <%= f.input :body %>
+      <%= f.submit %>
+    <% end %>
+    <hr>
+    <% @campaign.comments.each do |com| %>
+      <div class="well">
+        <%= com.body %>
+      </div>
+    <% end %> 
+  </div>
+
+
+
+<!-- Reward levels, to show nested attributes -->
+  <div class="col-sm-3 col-md-3">
+    <div style='width: 300px;'> <!-- geoMap here -->
+      <div id="map" style='width: 300px; height: 500px;'></div>
+    </div>
+
+    <h2>Reward levels:</h2>
+    <% @campaign.reward_levels.each do |rl| %>
+      <div class="well">
+      <h3><%= rl.title %></h3>
+      <p><%= number_to_currency(rl.amount)  %></p>
+      <p>Quantity: <%= rl.quantity %></p>
+      <p><%= rl.body %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<script>
+  $(document).ready(function() {
+    handler = Gmaps.build('Google');
+    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+    markers = handler.addMarkers([
+      {
+        // "lat": 0,200
+        // "lng": 0,
+        // "infowindow": "hello!",
+        // "picture": {
+        //   "url": "https://addons.cdn.mozilla.net/img/uploads/addon_icons/13/13028-64.png",
+        //   "width":  36,
+        //   "height": 36
+        // },
+        "lat": <%= @campaign.latitude %>,
+        "lng": <%= @campaign.longitude %>,
+        "infowindow": "<%= @campaign.title %>"
+      }
+    ]);
+    handler.bounds.extendWith(markers);
+    handler.fitMapToBounds();
+    handler.getMap().setZoom(13);  // sets the zoom level on the map
+  });
+});
+</script>
+
+<%# end %>

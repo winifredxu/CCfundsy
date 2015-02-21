@@ -13,6 +13,7 @@ class SessionsController < ApplicationController
       redirect_to root_path, notice: "#{@user.first_name} Logged in!"
 #     render nothing: true
     else
+      @user = User.new
       flash[:alert] = "wrong email or password"
       render :new
     end

@@ -1,5 +1,4 @@
 require 'rails_helper'
-
 RSpec.describe CampaignsController, type: :controller do
   let(:user) { create(:user) }
   let(:campaign) { create(:campaign, user: user) }
@@ -49,12 +48,10 @@ RSpec.describe CampaignsController, type: :controller do
         it "adds a campaign to the database" do
           expect { valid_campaign_request }.to change { Campaign.count }.by(1)
         end
-
         it "redirect to campaign new page" do
           valid_campaign_request
           expect(response).to redirect_to(campaign_path(Campaign.last))
         end
-
         it "sets flash message" do
           valid_campaign_request
           expect(flash[:notice]).to be
@@ -71,12 +68,10 @@ RSpec.describe CampaignsController, type: :controller do
         it "doesn't create a record in the database" do
           expect { invalid_campaign_request }.not_to change { Campaign.count } 
         end
-
         it "sets a flash errors message" do
           invalid_campaign_request
           expect(flash[:alert]).to be
         end
-
         it "renders the new campaign template page" do
           invalid_campaign_request
           expect(response).to render_template(:new)
@@ -99,7 +94,6 @@ RSpec.describe CampaignsController, type: :controller do
       get :show, id: campaign.id
       expect(assigns(:campaign)).to eq(campaign)
     end
-
     it "renders the show template" do
 #      c = FactoryGirl.create(:campaign)  #add a line in rspec/rails_helper.rb file
 #      c = create(:campaign)
@@ -115,7 +109,6 @@ RSpec.describe CampaignsController, type: :controller do
       get :index
       expect(assigns(:entire_campaigns)).to eq([campaign, campaign_2])
     end
-
     it "render the index template" do
       get :index
       expect(response).to render_template(:index)
@@ -129,11 +122,9 @@ RSpec.describe CampaignsController, type: :controller do
           login(user)
           get :edit, id: campaign.id 
         end     
-
         it "renders the edit template" do
           expect(response).to render_template(:edit)
         end
-
         it "retrieves the campaign with passed ID and stores it in instance variable " do
           expect(assigns(:campaign)).to eq(campaign)
         end
@@ -165,7 +156,6 @@ RSpec.describe CampaignsController, type: :controller do
           before do
             patch :update, id: campaign.id, campaign: {title: "new title"}
           end
-
           it "redirect to the campaign show page" do
             expect(response).to redirect_to(campaign_path(campaign))
           end

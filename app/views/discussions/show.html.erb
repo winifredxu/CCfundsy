@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<div class="row well">
+  <%= @discussion.body %>
+  <%= link_to 'Edit', edit_discussion_path(@discussion) %> |
+  <%= link_to 'Back', discussions_path %>
+</div>
+
+
+
+<hr>
+<!-- comments for polymorphic association demonstration --> 
+  <%#= form_for [@compaign, (@comment || Comment.new)] do |f| %>
+  <%= simple_form_for [@discussion, (@comment || Comment.new)] do |f| %>
+    <%= f.input :body %>
+    <%= f.submit %>
+  <% end %>
+  <hr>
+  <% @discussion.comments.each do |com| %>
+    <div class="well">
+      <%= com.body %>
+    </div>
+  <% end %>

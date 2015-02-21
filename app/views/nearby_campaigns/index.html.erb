@@ -1,0 +1,20 @@
+<h1>NearbyCampaigns#index</h1>
+<p>Find me in app/views/nearby_campaigns/index.html.erb</p>
+
+<!-- <div style='width: 800px;'>
+  <div id="map" style='width: 800px; height: 400px;'></div>
+</div> -->
+<div id="map" style="height: 400px"></div>
+
+<!-- create the Google Map -->
+<script>  
+  $(document).ready(function() {
+    handler = Gmaps.build('Google');
+    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+      markers = handler.addMarkers(<%= raw generate_markers(@nearby_campaigns) %>);
+      handler.bounds.extendWith(markers);
+      handler.fitMapToBounds();
+      handler.getMap().setZoom(12);  <!-- sets the zoom level on the map -->
+    });
+  });
+</script>

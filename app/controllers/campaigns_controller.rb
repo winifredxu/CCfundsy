@@ -6,6 +6,11 @@ class CampaignsController < ApplicationController
   def new
     @campaign = Campaign.new
 #    render nothing:true
+
+    #3.times { @campaign.reward_levels.build(quantity: 100) } # .build creates an empty record
+    1.times { @campaign.reward_levels.build }
+    # .build creates an empty associated record in memory
+
   end
 
   def create
@@ -16,6 +21,7 @@ class CampaignsController < ApplicationController
 #    render nothing:true
       redirect_to campaign_path(@campaign), notice: "campaign created successfully."
     else
+      1.times { @campaign.reward_levels.build }
       flash[:alert] = "campaign failed to create"
       render :new
     end
@@ -28,11 +34,16 @@ class CampaignsController < ApplicationController
 
   def index
     @entire_campaigns = Campaign.all
+    #@entire_campaigns = Campaign.published   #only show "published" campaigns
+    @recent_campaigns = Campaign.published.recent(3)
+
 #    render nothing:true
   end
 
   def edit
-
+    #calculate how many of the remaining of the 3 blank rewards to be allowed to be filled.
+    remaining = 3 - @campaign.reward_levels.count
+    remaining.times { @campaign.reward_levels.build }
 #    render nothing:true
   end
 
@@ -59,10 +70,18 @@ class CampaignsController < ApplicationController
     redirect_to root_path unless @campaign
   end
   def find_campaign
-    @campaign = Campaign.find(params[:id])
+    # @campaign = Campaign.find(params[:id])  #try a bigger but less query counts. optimization
+    @campaign = Campaign.includes(:comments, :reward_levels).references(:comments, :reward_levels).find(params[:id])
   end
   def campaign_params
-    params.require(:campaign).permit(:title, :description, :goal, 
-                    :due_date, {category_ids: []})
+    params.require(:campaign).permit(:title, :description, :goal, :due_date,
+                                    #we don't actually store notify_admin to DB 
+                                    :notify_admin,
+                                    {category_ids: []}, 
+                                    { reward_levels_attributes: 
+                                      [:id, :title, :amount, 
+                                       :quantity, :body,
+                                       :_destroy ] }
+                                    )
   end
 end

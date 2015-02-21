@@ -1,5 +1,4 @@
 require 'rails_helper'
-
 RSpec.describe SessionsController, type: :controller do
   let(:user) { create(:user) }  #use FactoryGirl to build test users
   describe "#new" do

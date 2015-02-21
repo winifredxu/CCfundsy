@@ -1,10 +1,23 @@
 <%= simple_form_for @campaign do |f| %>
   <%= f.input :title %>
+  <%= f.input :notify_admin, as: :boolean %>
+
   <%= f.input :description %>
   <%= f.input :goal %>
   <%= f.input :due_date, as: :date %>
 
   <%= f.association :categories, as: :check_boxes %>
 
+
+  <h2>Reward levels:</h2>
+  <%= f.full_error :reward_levels %>
+  <%= f.simple_fields_for :reward_levels do |r| %>
+    <% render partial: "reward_level_fields", locals: {f: r} %>
+  <% end %>
+  <div class="links">
+  <!-- link_to_add_association comes from 'gem cocoon' -->
+    <%= link_to_add_association "Add Reward Level", f, :reward_levels, class: "btn btn-primary btn-lg" %>
+  </div>
+  <hr>
   <%= f.submit "Submit Campaign" %>
 <% end %>

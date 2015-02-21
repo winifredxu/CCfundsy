@@ -37,9 +37,18 @@ gem "bootstrap-sass"
 gem "simple_form"
 gem "quiet_assets"
 
-gem "cancancan"
+gem "cancancan"   # for user authorization
+gem "cocoon" # for nested attributes
+gem "aasm" # for Finite State Machine 
 
-group :test do
+gem "geocoder" #for using Geocoding
+gem "gmaps4rails" #for use with Google Map
+gem "underscore-rails" # JS library "underscore" for Rails
+
+gem "cocoon" #dynamic forms on webpages. 
+
+
+group :test do  # for test coverage data and visual view
   gem "simplecov", require: false  # only load upon usage
 end
 
@@ -47,14 +56,16 @@ group :development do  #these are required in ~/.irbrc
   gem "interactive_editor"
   gem "awesome_print"
   gem "hirb"
-  gem "pry-rails"
+  gem "pry-rails" #??
 end
 
 group :development, :test do
   gem 'capybara' #capybara for integration testing
   gem 'launchy'   #also for capybara testing 
   gem 'factory_girl_rails'  #this is for generate Rspec testing
-  gem 'faker'  
+  
+  gem 'faker'
+  gem 'rails-erd' #auto generate visual ERD diagram based on the models in current project
 
   #gem 'cucumber-rails', :require => false
   # database_cleaner is not required, but highly recommended

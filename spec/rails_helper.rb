@@ -6,7 +6,7 @@ require 'rspec/rails'
 require 'capybara/rails'  # add capybara for integration testing
 # Add additional requires below this line. Rails is not loaded until this point!
 
-require 'simplecov'
+require 'simplecov'   # see test code analysis coverage via a webpage tool
 SimpleCov.start
 
 

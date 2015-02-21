@@ -1,11 +1,23 @@
 Rails.application.routes.draw do
+
+  #get 'nearby_campaigns/index'
+  resources :nearby_campaigns, only: :index #use with geocoding
+
+  resources :discussions do
+    resources :comments, only: :create
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 
-  resources :campaigns
+  resources :campaigns do
+    resources :publishings, only: :create
+    resources :comments, only: :create
+  end
+  
   resources :users, only: [:new, :create]
   resources :sessions, only: [:new, :create] do
     delete :destroy, on: :collection # on collection does not require an ID

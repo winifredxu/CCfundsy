@@ -1,6 +1,19 @@
 <h1>Welcome to Fundsy</h1>
 <h2>Listing all Campaigns</h2>
 
+
+<h2>Just Released:</h2>
+<!-- learn Rails caching! skip digest #, in order to expire cache -->
+<% cache "recent_campaigns", skip_digest: true, expire_in: 1.day do %>
+  <% @recent_campaigns.each do |camp| %>
+    <div class="col-sm-4 col-sm-4">
+      <h3><%= link_to camp.title, camp %></h3>
+      <p><%= camp.description %></p>
+    </div>
+  <% end %>
+<% end %>
+
+<hr>
 <ul>
   <% @entire_campaigns.each do |c| %>
     <div class="well">
