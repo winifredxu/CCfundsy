@@ -7,20 +7,23 @@ class CampaignsController < ApplicationController
     @campaign = Campaign.new
 #    render nothing:true
 
-    #3.times { @campaign.reward_levels.build(quantity: 100) } # .build creates an empty record
+    #3.times { @campaign.reward_levels.build(quantity: 100) } # .build creates an empty associated record in memory
     1.times { @campaign.reward_levels.build }
-    # .build creates an empty associated record in memory
-
   end
 
   def create
-    @campaign = Campaign.new campaign_params
-    @campaign.user = current_user
+    service = Campaigns::CreateCampaign.new(params: campaign_params, user: current_user)
 
-    if @campaign.save
+    # @campaign = Campaign.new campaign_params
+    # @campaign.user = current_user
+
+    # if @campaign.save
 #    render nothing:true
+    if service.call
+      @campaign = service.campaign
       redirect_to campaign_path(@campaign), notice: "campaign created successfully."
     else
+      @campaign = service.campaign
       1.times { @campaign.reward_levels.build }
       flash[:alert] = "campaign failed to create"
       render :new
@@ -66,12 +69,14 @@ class CampaignsController < ApplicationController
   private
 
   def find_own_campaign
-    @campaign = current_user.campaigns.find params[:id]
+#    @campaign = current_user.campaigns.find params[:id]
+    @campaign = current_user.campaigns.find(params[:id]).decorate
     redirect_to root_path unless @campaign
   end
   def find_campaign
     # @campaign = Campaign.find(params[:id])  #try a bigger but less query counts. optimization
-    @campaign = Campaign.includes(:comments, :reward_levels).references(:comments, :reward_levels).find(params[:id])
+#    @campaign = Campaign.includes(:comments, :reward_levels).references(:comments, :reward_levels).find(params[:id])
+    @campaign = Campaign.includes(:comments, :reward_levels).references(:comments, :reward_levels).find(params[:id]).decorate
   end
   def campaign_params
     params.require(:campaign).permit(:title, :description, :goal, :due_date,

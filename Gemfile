@@ -46,7 +46,8 @@ gem "gmaps4rails" #for use with Google Map
 gem "underscore-rails" # JS library "underscore" for Rails
 
 gem "cocoon" #dynamic forms on webpages. 
-
+gem "draper" #Decorator pattern object extension
+gem "virtus" #Service objects
 
 group :test do  # for test coverage data and visual view
   gem "simplecov", require: false  # only load upon usage

@@ -1,10 +1,9 @@
 FactoryGirl.define do
   factory :reward_level do
-    campaign nil
-title "MyString"
-amount 1
-body "MyText"
-quantity 1
+    sequence(:title) { |n| "#{Faker::Company.bs}-#{n}" }
+    sequence(:amount) { |n| 100 + n }
+    body "MyText"
+    quantity 1000
   end
 
 end

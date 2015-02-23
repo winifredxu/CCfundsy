@@ -29,8 +29,12 @@ module Fundsy
     # config.i18n.default_locale = :de
 
     # add this line below for validators to be accessible in rails console.
+        #this line added for custom Email validator
     config.autoload_paths += 
         Dir[Rails.root.join("app", "validators", "*").to_s]
+        #this line below for decorator 
+    config.autoload_paths +=
+        Dir[Rails.root.join("app", "decorators", "*").to_s]
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true

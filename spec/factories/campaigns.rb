@@ -8,7 +8,9 @@ FactoryGirl.define do
 
     description Faker::Lorem.paragraph
     goal 1000
+    aasm_state "published"
     due_date "2019-05-05 10:33:20"
+    after(:build) { |c| c.reward_levels << FactoryGirl.create(:reward_level) }
   end
 
 end

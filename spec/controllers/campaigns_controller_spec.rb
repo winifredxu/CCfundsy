@@ -40,10 +40,14 @@ RSpec.describe CampaignsController, type: :controller do
 
       context "with valid campaign parameters" do
         def valid_campaign_request
-          post :create, {campaign: {title: "first", 
-                                    description: "blah blah blah",
-                                    goal: 15,
-                                    due_date: (Time.now + 10.days)} } 
+          post :create, {campaign: { title: "first",
+                                     description: "blah blah blah",
+                                     goal: 15,
+                                     due_date: (Time.now + 10.days),
+                                     reward_levels_attributes: 
+                                     { "0" => attributes_for(:reward_levels) }
+                                   } 
+                        } 
         end
         it "adds a campaign to the database" do
           expect { valid_campaign_request }.to change { Campaign.count }.by(1)

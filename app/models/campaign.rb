@@ -3,7 +3,6 @@ class Campaign < ActiveRecord::Base
 
   attr_accessor :notify_admin  # add a non-DB field
 
-
   geocoded_by :address #Geocode
   after_validation :geocode
 
@@ -11,7 +10,7 @@ class Campaign < ActiveRecord::Base
 
   has_many :categorizations, dependent: :destroy #many-to-many association
   has_many :categories, through: :categorizations
-  
+
   has_many :comments, as: :commentable, dependent: :destroy #polymorphic association
 
   has_many :reward_levels, dependent: :destroy #nested attributes
@@ -27,14 +26,14 @@ class Campaign < ActiveRecord::Base
   validates :description, presence: true
   validates :goal, presence: true, numericality: {greater_than_or_equal_to: 10}
   validates :reward_levels, presence: true
-  
-  scope :published, -> { where(aasm_state: :published) }   #FSM transitions
-  
+    
   delegate :full_name, :first_name, :last_name, to: :user, prefix: true  #prefix gives user_full_name
 
   #def full_name
   #  user.full_name
   #end
+
+  scope :published, -> { where(aasm_state: :published) }   #FSM transitions
 
   # define the Finite State Machine's list of states
   aasm do
