@@ -33,11 +33,16 @@ class CampaignsController < ApplicationController
   def show
     # before_action took care of finding the correct campaign.id object
 #    render nothing:true
+
+    respond_to do |format|
+      format.html { render }
+      format.json { render json: @campaign.to_json }
+    end
   end
 
   def index
-    @entire_campaigns = Campaign.all
-    #@entire_campaigns = Campaign.published   #only show "published" campaigns
+    @entire_campaigns = Campaign.published #only show "published" campaigns
+    #@entire_campaigns = Campaign.all
     @recent_campaigns = Campaign.published.recent(3)
 
 #    render nothing:true

@@ -25,6 +25,16 @@ Rails.application.routes.draw do
     delete :destory_2 # will use a session ID in the route
   end
 
+  #API routes
+  # want /api/v1/campaigns, need to use namespace
+  # namespace - URL route changes, controller changes
+  # scope - URL route changes, but goes to the standard controller
+  namespace :api, defaults: {format: :json} do 
+    namespace :v1 do
+      resources :campaigns, only: [ :index, :show, :create ]
+    end
+  end
+
   root "campaigns#index"
 
 

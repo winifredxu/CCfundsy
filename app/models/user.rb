@@ -16,6 +16,9 @@ class User < ActiveRecord::Base
 #  validates :email, email_format: true
   validates :email, email_format: { message: "invalid email_format" }
 
+  # User.api_key assignment for user API
+  before_create :generate_api_key
+
   def full_name
     if (first_name || last_name)
       "#{first_name} #{last_name}"
@@ -24,4 +27,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  private
+
+    def generate_api_key
+      begin
+        self.api_key = SecureRandom.hex
+      end while User.exists?(api_key: api_key)
+      #Campaign.exists?(title: "Potato Salad 1.0")
+    end
 end

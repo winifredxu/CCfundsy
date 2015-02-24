@@ -57,7 +57,10 @@ group :development do  #these are required in ~/.irbrc
   gem "interactive_editor"
   gem "awesome_print"
   gem "hirb"
+  
   gem "pry-rails" #??
+  gem "better_errors" # shows more meaningful error messages
+  gem "binding_of_caller" #works with "better_error" to give local variable inspection  
 end
 
 group :development, :test do
