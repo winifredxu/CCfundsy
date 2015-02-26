@@ -1,6 +1,6 @@
 class Campaigns::CreateCampaign
 
-  include virtus.model
+  include Virtus.model #to use the Virtus gem for the Service object
 
   # input objects
   attribute :params, Hash
