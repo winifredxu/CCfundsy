@@ -18,11 +18,19 @@ Rails.application.routes.draw do
     resources :comments, only: :create
   end
   
-  resources :users, only: [:new, :create]
-  resources :sessions, only: [:new, :create] do
+  resources :users, only: [ :new, :create ]
+  resources :sessions, only: [ :new, :create ] do
     delete :destroy, on: :collection # on collection does not require an ID
     delete :destory_1, on: :member # on member will require an ID
     delete :destory_2 # will use a session ID in the route
+  end
+
+  resources :reward_levels, only: [] do
+    resources :pledges, only: [ :new, :create, :index, :destroy ]
+  end
+
+  resources :pledges, only: [] do
+    resources :payments, only: [:new, :create]
   end
 
   #API routes

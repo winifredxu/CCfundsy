@@ -4,9 +4,9 @@ class Campaigns::CreateCampaign
 
   # input objects
   attribute :params, Hash
-  attribute :user, user
+  attribute :user, User
   # output objects
-  attribute :campaign, Campaigns
+  attribute :campaign, Campaign
 
   def call
     @campaign = Campaign.new params
@@ -17,6 +17,6 @@ class Campaigns::CreateCampaign
   private
 
   def send_email_to_admin
-    #write the mailer
+    #write the mailer here, insert code here. 
   end
 end

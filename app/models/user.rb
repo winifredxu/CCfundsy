@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_secure_password
-  has_many :campaigns
+  has_many :campaigns, dependent: :destroy
+  has_many :pledges, dependent: :nullify
 
   geocoded_by :address #for Geocoding
   after_validation :geocode

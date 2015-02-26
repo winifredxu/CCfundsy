@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150224185938) do
+ActiveRecord::Schema.define(version: 20150226224551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,19 @@ ActiveRecord::Schema.define(version: 20150224185938) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "pledges", force: :cascade do |t|
+    t.integer  "amount"
+    t.string   "stripe_txn_id"
+    t.string   "aasm_state"
+    t.integer  "user_id"
+    t.integer  "reward_level_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "pledges", ["reward_level_id"], name: "index_pledges_on_reward_level_id", using: :btree
+  add_index "pledges", ["user_id"], name: "index_pledges_on_user_id", using: :btree
+
   create_table "reward_levels", force: :cascade do |t|
     t.integer  "campaign_id"
     t.string   "title"
@@ -82,12 +95,15 @@ ActiveRecord::Schema.define(version: 20150224185938) do
     t.string   "password_digest"
     t.string   "first_name"
     t.string   "last_name"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
     t.string   "address"
     t.float    "latitude"
     t.float    "longitude"
     t.string   "api_key"
+    t.string   "stripe_customer_token"
+    t.string   "stripe_last4"
+    t.string   "stripe_card_type"
   end
 
   add_index "users", ["api_key"], name: "index_users_on_api_key", using: :btree
@@ -95,5 +111,7 @@ ActiveRecord::Schema.define(version: 20150224185938) do
   add_foreign_key "campaigns", "users"
   add_foreign_key "categorizations", "campaigns"
   add_foreign_key "categorizations", "categories"
+  add_foreign_key "pledges", "reward_levels"
+  add_foreign_key "pledges", "users"
   add_foreign_key "reward_levels", "campaigns"
 end

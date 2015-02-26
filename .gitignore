@@ -7,6 +7,10 @@
 # Ignore bundler config.
 /.bundle
 
+
+/config/initializers/api_stripe_keys.rb
+
+
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep

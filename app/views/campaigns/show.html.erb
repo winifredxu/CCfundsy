@@ -64,14 +64,19 @@
     <h2>Reward levels:</h2>
     <% @campaign.reward_levels.each do |rl| %>
       <div class="well">
-      <h3><%= rl.title %></h3>
-      <p><%= number_to_currency(rl.amount)  %></p>
-      <p>Quantity: <%= rl.quantity %></p>
-      <p><%= rl.body %></p>
+        <h3><%= rl.title %></h3>
+        <p><%= number_to_currency(rl.amount)  %></p>
+        <p>Quantity: <%= rl.quantity %></p>
+        <p><%= rl.body %></p>
+        <div>
+          <%= link_to "Pledge", new_reward_level_pledge_path(rl), class: "btn btn-primary btn-sm" %>
+        </div>
       </div>
     <% end %>
   </div>
+
 </div>
+
 
 <!-- map for where the script targets is in line #46 above -->
 <script>

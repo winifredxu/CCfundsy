@@ -1,0 +1,29 @@
+<h1>Pay now!</h1>
+
+<div id="stripe-errors">
+  <%= @error_messages %>
+</div>
+
+<%= simple_form_for "", url: pledge_payments_path(@pledge), html: {id: "token-form"} do |f| %>
+  <%= f.input :stripe_token, as: :hidden %>
+<% end %>
+
+<%= simple_form_for "", html: {id: "cc-form"} do |f| %>
+  <%= f.input :card_number %>
+  <div class='form-group'>
+    <%= f.label :expiry_date %>
+    <%= select_month nil, {add_month_number: true}, {class: "form-control"} %>
+    <%= select_year nil, { start_year: Date.today.year, 
+                           end_year: (Date.today.year + 7) }, 
+                        {class: "form-control"} %>
+  </div>
+
+  <%= f.input :cvc %>
+
+  <noscript>
+    Javascript must be enabled for this form to work. Your browser is really old!
+  </noscript>
+  
+  <%= f.submit "go", class: "btn btn-primary btn-lg" %>
+
+<% end %>

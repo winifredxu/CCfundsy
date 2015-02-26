@@ -1,0 +1,5 @@
+<h1>Pledge for <%= @reward_level.title %></h1>
+<%= simple_form_for [@reward_level, @pledge] do |f| %>
+  <%= f.input :amount %>
+  <%= f.submit "Pledge NOW!", class: "btn btn-primary" %>
+<% end %>
